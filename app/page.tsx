@@ -74,8 +74,21 @@ export default function Home() {
 
   return (
     <main className="min-h-screen relative overflow-hidden">
-      {/* Animated background */}
+      {/* Oracle Wizard Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          style={{
+            backgroundImage: 'url(/oracle-wizard.png)',
+            filter: 'blur(2px)',
+          }}
+        />
+        
+        {/* Gradient Overlays for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/60 to-slate-900/90" />
+        
+        {/* Animated cosmic effects */}
         <motion.div
           animate={{
             scale: [1, 1.2, 1],
