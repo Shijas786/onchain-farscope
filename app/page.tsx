@@ -129,11 +129,15 @@ export default function Home() {
           className="text-center mb-12"
         >
           <motion.div
-            animate={{ rotate: [0, 360] }}
-            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-            className="text-6xl mb-4 inline-block"
+            animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            className="mb-4 inline-block"
           >
-            ✨
+            <img 
+              src="/oracle-icon.png" 
+              alt="The Based Oracle" 
+              className="w-24 h-24 md:w-32 md:h-32 mx-auto drop-shadow-2xl"
+            />
           </motion.div>
           <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
             The Based Oracle
