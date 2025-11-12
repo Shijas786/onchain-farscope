@@ -78,15 +78,15 @@ export default function Home() {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Background Image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-70"
           style={{
             backgroundImage: 'url(/oracle-wizard.png)',
-            filter: 'blur(2px)',
+            filter: 'blur(1px)',
           }}
         />
         
         {/* Gradient Overlays for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/60 to-slate-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/40 to-slate-900/60" />
         
         {/* Animated cosmic effects */}
         <motion.div

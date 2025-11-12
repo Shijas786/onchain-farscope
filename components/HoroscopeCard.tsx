@@ -283,13 +283,13 @@ export function HoroscopeCard({
               ) : (
                 <Sparkles className="w-4 h-4" />
               )}
-              {isConfirmed ? 'Minted!' : `Mint as NFT (${MINT_PRICE} ETH)`}
+              {isConfirmed ? 'Minted!' : 'Mint as NFT (Free!)'}
             </Button>
           </div>
 
           {!HOROSCOPE_NFT_ADDRESS && (
             <p className="text-xs text-center text-slate-500">
-              NFT minting will be available after contract deployment
+              Free NFT minting will be available after contract deployment
             </p>
           )}
         </CardFooter>

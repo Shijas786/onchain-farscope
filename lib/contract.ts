@@ -101,5 +101,5 @@ export const HOROSCOPE_NFT_ABI = [
 export const HOROSCOPE_NFT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as `0x${string}` | undefined
 
 // Mint price in ETH
-export const MINT_PRICE = '0.001' // 0.001 ETH
+export const MINT_PRICE = '0' // FREE MINT!
 

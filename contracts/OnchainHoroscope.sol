@@ -15,7 +15,7 @@ contract OnchainHoroscope is ERC721, ERC721URIStorage, Ownable {
     using Strings for uint256;
 
     uint256 private _tokenIdCounter;
-    uint256 public mintPrice = 0.001 ether; // 0.001 ETH on Base
+    uint256 public mintPrice = 0 ether; // FREE MINT!
     
     struct Horoscope {
         string zodiacSign;
