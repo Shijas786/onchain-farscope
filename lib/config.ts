@@ -11,7 +11,7 @@ if (!projectId) {
   console.warn('NEXT_PUBLIC_REOWN_PROJECT_ID is not set')
 }
 
-export const networks = [base]
+export const networks = [base] as const
 
 // Set up the Wagmi Adapter (Config)
 export const wagmiAdapter = new WagmiAdapter({
