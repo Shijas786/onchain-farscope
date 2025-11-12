@@ -1,0 +1,32 @@
+{
+  "frame": {
+    "name": "The Based Oracle",
+    "version": "1",
+    "iconUrl": "https://onchain-horoscope.vercel.app/oracle-icon.png",
+    "homeUrl": "https://onchain-horoscope.vercel.app/",
+    "imageUrl": "https://onchain-horoscope.vercel.app/image.png",
+    "buttonTitle": "Consult the Oracle",
+    "splashImageUrl": "https://onchain-horoscope.vercel.app/splash.png",
+    "splashBackgroundColor": "#6200EA",
+    "webhookUrl": "https://onchain-horoscope.vercel.app/api/webhook",
+    "subtitle": "Onchain prophecies for degens & builders",
+    "description": "Astrology for people who ship. Get your destiny forecast, written like Jesse Pollak met a zodiac prophet in a smart contract. Your onchain destiny, written in the blocks.",
+    "primaryCategory": "social",
+    "tags": [
+      "base",
+      "horoscope",
+      "builder",
+      "oracle",
+      "ai"
+    ],
+    "tagline": "Your onchain destiny, written in the blocks.",
+    "ogTitle": "The Based Oracle - Your Builder Destiny",
+    "ogDescription": "Your onchain destiny, written in the blocks. Stay based. Stay cosmic."
+  },
+  "accountAssociation": {
+    "header": "eyJmaWQiOjI1OTkxMywidHlwZSI6ImF1dGgiLCJrZXkiOiIweDE2QmM5MDJjYzk3NDRkOThmRjAzRDEyOTA0MjVhRkQ0RDRiOTAyMWEifQ",
+    "payload": "eyJkb21haW4iOiJodHRwczovL29uY2hhaW4taG9yb3Njb3BlLnZlcmNlbC5hcHAvIn0",
+    "signature": "0TLeFjBWnLKb1yD8B7xaqZvNs4LBQMD7Si0Z8zSMfTgCelrXrRbXU8sOeaWY03hRSEJ0AYL34iQlwfMoNoKjYhs="
+  }
+}
+
