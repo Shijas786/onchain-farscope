@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Sparkles, Share2, Loader2, CheckCircle2, ExternalLink } from 'lucide-react'
-import { ChainBadges } from './ChainBadges'
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
 import { parseEther } from 'viem'
 import { HOROSCOPE_NFT_ABI, HOROSCOPE_NFT_ADDRESS, MINT_PRICE } from '@/lib/contract'
@@ -127,15 +126,10 @@ export function HoroscopeCard({
             The Oracle Speaks
           </CardTitle>
           <CardDescription className="text-lg">
-            <div className="flex flex-col items-center gap-3">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl font-semibold">{zodiacSign}</span>
-                <span>•</span>
-                <span className="font-semibold">Score: {degenScore}/100</span>
-              </div>
-              {mostActiveChain && chains && chains.length > 0 && (
-                <ChainBadges chains={chains} mostActiveChain={mostActiveChain} />
-              )}
+            <div className="flex items-center justify-center gap-3">
+              <span className="text-2xl font-semibold">{zodiacSign}</span>
+              <span>•</span>
+              <span className="font-semibold">Score: {degenScore}/100</span>
             </div>
           </CardDescription>
         </CardHeader>
