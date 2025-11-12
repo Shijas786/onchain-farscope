@@ -30,7 +30,7 @@ export function ConnectButton() {
       className="gap-2"
     >
       <Sparkles className="w-5 h-5" />
-      Connect Wallet
+      Connect to Oracle
     </Button>
   )
 }
