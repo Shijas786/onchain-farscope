@@ -1,8 +1,10 @@
 import OpenAI from 'openai'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+function getOpenAIClient() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  })
+}
 
 interface ChainData {
   chain: string
@@ -71,6 +73,7 @@ Example formats:
 Generate the horoscope now:`
 
   try {
+    const openai = getOpenAIClient()
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini', // Using newer, faster model
       messages: [
