@@ -4,8 +4,11 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Sparkles, Share2, Loader2 } from 'lucide-react'
+import { Sparkles, Share2, Loader2, CheckCircle2, ExternalLink } from 'lucide-react'
 import { ChainBadges } from './ChainBadges'
+import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
+import { parseEther } from 'viem'
+import { HOROSCOPE_NFT_ABI, HOROSCOPE_NFT_ADDRESS, MINT_PRICE } from '@/lib/contract'
 
 interface ChainData {
   chain: string
@@ -47,6 +50,13 @@ export function HoroscopeCard({
   walletStats
 }: HoroscopeCardProps) {
   const [isSharing, setIsSharing] = useState(false)
+  const { address: connectedAddress } = useAccount()
+  
+  // Wagmi hooks for contract interaction
+  const { data: hash, writeContract, isPending: isMinting, error: mintError } = useWriteContract()
+  const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
+    hash,
+  })
 
   const handleShare = async () => {
     setIsSharing(true)
@@ -65,6 +75,37 @@ export function HoroscopeCard({
       alert('Copied to clipboard!')
     }
     setIsSharing(false)
+  }
+
+  const handleMint = async () => {
+    if (!HOROSCOPE_NFT_ADDRESS) {
+      alert('NFT contract not deployed yet. Please deploy the contract first!')
+      return
+    }
+
+    if (!connectedAddress) {
+      alert('Please connect your wallet first')
+      return
+    }
+
+    try {
+      writeContract({
+        address: HOROSCOPE_NFT_ADDRESS,
+        abi: HOROSCOPE_NFT_ABI,
+        functionName: 'mintHoroscope',
+        args: [
+          zodiacSign,
+          horoscope,
+          BigInt(degenScore),
+          BigInt(lifetimeTxCount || 0),
+          mostActiveChain || 'Base',
+        ],
+        value: parseEther(MINT_PRICE),
+      })
+    } catch (error) {
+      console.error('Error minting NFT:', error)
+      alert('Failed to mint NFT. Please try again.')
+    }
   }
 
   return (
@@ -152,25 +193,105 @@ export function HoroscopeCard({
           </div>
         </CardContent>
 
-        <CardFooter className="flex gap-3 justify-center">
-          <Button
-            variant="outline"
-            onClick={handleShare}
-            disabled={isSharing}
-            className="gap-2"
-          >
-            {isSharing ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Share2 className="w-4 h-4" />
-            )}
-            Share
-          </Button>
-          
-          <Button variant="cosmic" className="gap-2" disabled>
-            <Sparkles className="w-4 h-4" />
-            Mint as NFT (Coming Soon)
-          </Button>
+        <CardFooter className="flex flex-col gap-4">
+          {/* Minting Status */}
+          {(isMinting || isConfirming || isConfirmed) && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="w-full p-4 rounded-lg bg-slate-800/50 border border-purple-500/30"
+            >
+              {isMinting && (
+                <div className="flex items-center gap-3">
+                  <Loader2 className="w-5 h-5 animate-spin text-purple-400" />
+                  <div>
+                    <p className="font-semibold text-purple-300">Confirm Transaction</p>
+                    <p className="text-sm text-slate-400">Please confirm in your wallet...</p>
+                  </div>
+                </div>
+              )}
+              {isConfirming && (
+                <div className="flex items-center gap-3">
+                  <Loader2 className="w-5 h-5 animate-spin text-blue-400" />
+                  <div>
+                    <p className="font-semibold text-blue-300">Minting NFT</p>
+                    <p className="text-sm text-slate-400">Transaction is being confirmed...</p>
+                  </div>
+                </div>
+              )}
+              {isConfirmed && (
+                <div className="flex items-center gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-green-400" />
+                  <div className="flex-1">
+                    <p className="font-semibold text-green-300">NFT Minted Successfully! 🎉</p>
+                    <p className="text-sm text-slate-400">Your horoscope is now immortalized on Base</p>
+                  </div>
+                  {hash && (
+                    <a
+                      href={`https://basescan.org/tx/${hash}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 text-xs text-purple-400 hover:text-purple-300"
+                    >
+                      View TX <ExternalLink className="w-3 h-3" />
+                    </a>
+                  )}
+                </div>
+              )}
+            </motion.div>
+          )}
+
+          {/* Error Message */}
+          {mintError && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="w-full p-3 rounded-lg bg-red-900/20 border border-red-500/30"
+            >
+              <p className="text-sm text-red-300">
+                Failed to mint: {mintError.message?.slice(0, 100)}...
+              </p>
+            </motion.div>
+          )}
+
+          {/* Action Buttons */}
+          <div className="flex gap-3 justify-center w-full">
+            <Button
+              variant="outline"
+              onClick={handleShare}
+              disabled={isSharing}
+              className="gap-2"
+            >
+              {isSharing ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Share2 className="w-4 h-4" />
+              )}
+              Share
+            </Button>
+            
+            <Button 
+              variant="cosmic" 
+              className="gap-2" 
+              onClick={handleMint}
+              disabled={isMinting || isConfirming || isConfirmed || !HOROSCOPE_NFT_ADDRESS}
+            >
+              {isMinting || isConfirming ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : isConfirmed ? (
+                <CheckCircle2 className="w-4 h-4" />
+              ) : (
+                <Sparkles className="w-4 h-4" />
+              )}
+              {isConfirmed ? 'Minted!' : `Mint as NFT (${MINT_PRICE} ETH)`}
+            </Button>
+          </div>
+
+          {!HOROSCOPE_NFT_ADDRESS && (
+            <p className="text-xs text-center text-slate-500">
+              NFT minting will be available after contract deployment
+            </p>
+          )}
         </CardFooter>
       </Card>
     </motion.div>
