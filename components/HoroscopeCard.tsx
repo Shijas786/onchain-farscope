@@ -61,7 +61,7 @@ export function HoroscopeCard({
     setIsSharing(true)
     const statsText = lifetimeTxCount ? `\n${lifetimeTxCount} lifetime transactions` : ''
     const chainInfo = mostActiveChain ? `\nMost Active: ${mostActiveChain}` : ''
-    const text = `My Onchain Horoscope: ${zodiacSign}${statsText}${chainInfo}\n\n${horoscope}\n\n✨ Get yours at onchain-horoscope.vercel.app`
+    const text = `My Based Oracle Reading:\n${zodiacSign}${statsText}${chainInfo}\n\n${horoscope}\n\n🔮 Consult the Oracle: https://onchain-horoscope.vercel.app`
     
     if (navigator.share) {
       try {

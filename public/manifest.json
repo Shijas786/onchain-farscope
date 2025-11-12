@@ -1,16 +1,16 @@
 {
   "frame": {
     "name": "The Based Oracle",
-    "version": "1",
+    "version": "1.0",
     "iconUrl": "https://onchain-horoscope.vercel.app/oracle-icon.png",
     "homeUrl": "https://onchain-horoscope.vercel.app/",
-    "imageUrl": "https://onchain-horoscope.vercel.app/image.png",
+    "imageUrl": "https://onchain-horoscope.vercel.app/oracle-icon.png",
     "buttonTitle": "Consult the Oracle",
-    "splashImageUrl": "https://onchain-horoscope.vercel.app/splash.png",
+    "splashImageUrl": "https://onchain-horoscope.vercel.app/oracle-icon.png",
     "splashBackgroundColor": "#6200EA",
     "webhookUrl": "https://onchain-horoscope.vercel.app/api/webhook",
-    "subtitle": "Onchain prophecies for degens & builders",
-    "description": "Astrology for people who ship. Get your destiny forecast, written like Jesse Pollak met a zodiac prophet in a smart contract. Your onchain destiny, written in the blocks.",
+    "subtitle": "Your onchain destiny, written in the blocks",
+    "description": "Astrology for people who ship. AI-powered horoscopes based on your real Ethereum + Base wallet activity. Jesse Pollak meets cosmic prophecy.",
     "primaryCategory": "social",
     "tags": [
       "base",
@@ -20,7 +20,7 @@
       "ai"
     ],
     "tagline": "Your onchain destiny, written in the blocks.",
-    "ogTitle": "The Based Oracle - Your Builder Destiny",
+    "ogTitle": "The Based Oracle - Your Onchain Destiny",
     "ogDescription": "Your onchain destiny, written in the blocks. Stay based. Stay cosmic."
   },
   "accountAssociation": {

@@ -1,6 +1,8 @@
-# ✨ Onchain Horoscope
+# 🔮 The Based Oracle
 
-A playful Farcaster MiniApp that generates AI-powered "onchain horoscopes" based on your Base wallet activity using Reown AppKit.
+A Farcaster MiniApp that generates AI-powered "onchain horoscopes" based on your Ethereum + Base wallet activity using Reown AppKit.
+
+**Live App**: https://onchain-horoscope.vercel.app
 
 ![Onchain Horoscope](https://img.shields.io/badge/Built%20with-Reown%20AppKit-blue) ![Base Chain](https://img.shields.io/badge/Chain-Base-0052FF) ![AI Powered](https://img.shields.io/badge/AI-GPT--4-green)
 
