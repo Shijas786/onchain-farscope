@@ -1,0 +1,54 @@
+# Onchain Horoscope Project Rules
+
+## Tech Stack
+- Next.js 14 with App Router
+- TypeScript
+- Reown AppKit for wallet connection
+- Tailwind CSS + shadcn/ui for styling
+- Framer Motion for animations
+- OpenAI GPT-4o-mini for horoscope generation
+- Covalent API for multi-chain blockchain data
+- Axios for HTTP requests
+
+## Code Style
+- Use TypeScript strict mode
+- Prefer functional components with hooks
+- Use 'use client' directive for client components
+- Follow Next.js 14 App Router conventions
+- Keep components small and focused
+- Use proper error handling with try-catch
+
+## File Structure
+- `/app` - Next.js pages and API routes
+- `/components` - React components (ui/ for shadcn components)
+- `/lib` - Utility functions, API clients, configurations
+
+## Multi-Chain Support
+- Primary: Covalent API (Ethereum + Base + more)
+- Fallback: BaseScan API (Base only)
+- Always handle chain data as an array
+- Include chain metadata in responses
+
+## Environment Variables
+- OPENAI_API_KEY - Required for GPT
+- NEXT_PUBLIC_REOWN_PROJECT_ID - Required for wallet
+- COVALENT_API_KEY - Recommended for multi-chain
+- BASESCAN_API_KEY - Fallback for Base only
+
+## Best Practices
+- Always validate wallet addresses
+- Handle API errors gracefully
+- Show loading states for async operations
+- Use motion components for animations
+- Keep horoscopes under 200 words
+- Cache wallet data when possible
+- Log errors for debugging
+
+## UI/UX Guidelines
+- Dark theme with cosmic gradients
+- Purple/pink color scheme
+- Smooth animations with Framer Motion
+- Mobile-first responsive design
+- Clear error messages for users
+- Loading states with cosmic animations
+
