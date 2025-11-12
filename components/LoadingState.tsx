@@ -26,10 +26,13 @@ export function LoadingState() {
 
       <div className="text-center space-y-2">
         <h3 className="text-xl font-semibold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-          Reading the Cosmic Charts...
+          Reading your transaction history...
         </h3>
         <p className="text-muted-foreground">
-          Analyzing your onchain destiny
+          Consulting the mempool...
+        </p>
+        <p className="text-sm text-muted-foreground/70">
+          Synchronizing with the superchain...
         </p>
       </div>
 

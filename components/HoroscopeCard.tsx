@@ -137,7 +137,7 @@ export function HoroscopeCard({
             ✨
           </motion.div>
           <CardTitle className="text-3xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-            Your Onchain Analysis
+            The Oracle Speaks
           </CardTitle>
           <CardDescription className="text-lg">
             <div className="flex flex-col items-center gap-3">

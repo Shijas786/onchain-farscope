@@ -118,10 +118,10 @@ export default function Home() {
             ✨
           </motion.div>
           <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-            Onchain Horoscope
+            The Based Oracle
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover your cosmic degen destiny based on your Base wallet activity
+            Your onchain destiny, written in the blocks.
           </p>
         </motion.header>
 
@@ -154,9 +154,9 @@ export default function Home() {
                     ✨
                   </motion.span>
                 </div>
-                <h2 className="text-2xl font-semibold">Connect Your Wallet</h2>
+                <h2 className="text-2xl font-semibold">The sequencer is aligned</h2>
                 <p className="text-muted-foreground max-w-md mx-auto">
-                  Connect your Base wallet to unlock your personalized onchain horoscope
+                  Show the Oracle your wallet to see what the chain foretells.
                 </p>
               </div>
               <ConnectButton />
@@ -205,12 +205,12 @@ export default function Home() {
                 >
                   <div className="text-6xl animate-float">🔮</div>
                   <div>
-                    <h2 className="text-2xl font-semibold mb-2">Ready to Read Your Stars?</h2>
+                    <h2 className="text-2xl font-semibold mb-2">The Oracle Awaits</h2>
                     <p className="text-muted-foreground mb-4">
-                      Click below to generate your personalized onchain horoscope
+                      Let the Based Oracle read your transaction history and reveal your builder destiny.
                     </p>
                     <p className="text-xs text-muted-foreground/70">
-                      Powered by Covalent multi-chain data + GPT-4o-mini
+                      Powered by Covalent multi-chain data + AI
                     </p>
                   </div>
                   <Button
@@ -220,7 +220,7 @@ export default function Home() {
                     className="gap-2 text-lg px-8"
                   >
                     <Sparkles className="w-5 h-5" />
-                    Generate My Horoscope
+                    Consult the Oracle
                   </Button>
                 </motion.div>
               )}
@@ -233,13 +233,16 @@ export default function Home() {
                   animate={{ opacity: 1 }}
                   className="text-center space-y-4 py-8"
                 >
-                  <div className="text-4xl">😔</div>
+                  <div className="text-4xl">⚠️</div>
                   <div>
-                    <h3 className="text-xl font-semibold text-red-400 mb-2">Oops!</h3>
-                    <p className="text-muted-foreground">{error}</p>
+                    <h3 className="text-xl font-semibold text-red-400 mb-2">The Oracle's connection is weak</h3>
+                    <p className="text-muted-foreground mb-2">{error}</p>
+                    <p className="text-sm text-muted-foreground/70 italic">
+                      Did you try turning the blockchain off and on again? (Just kidding, please check your connection and try again.)
+                    </p>
                   </div>
                   <Button variant="outline" onClick={generateHoroscope}>
-                    Try Again
+                    Consult Again
                   </Button>
                 </motion.div>
               )}
@@ -275,8 +278,8 @@ export default function Home() {
           transition={{ delay: 1 }}
           className="text-center mt-20 text-sm text-muted-foreground"
         >
-          <p>Built with Reown AppKit • Base Chain • GPT-4</p>
-          <p className="mt-2">For entertainment purposes only. DYOR, anon. 🌙</p>
+          <p>Built with Reown AppKit • Base Chain • Covalent AI</p>
+          <p className="mt-2">The onchain economy doesn't care about your sign. Only your transaction history.</p>
         </motion.footer>
       </div>
     </main>

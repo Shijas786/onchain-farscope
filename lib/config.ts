@@ -24,9 +24,9 @@ export const config = wagmiAdapter.wagmiConfig
 
 // Set up metadata
 const metadata = {
-  name: 'Onchain Horoscope',
-  description: 'Get your personalized onchain horoscope based on your wallet activity',
-  url: 'https://onchain-horoscope.app',
+  name: 'The Based Oracle',
+  description: 'Your onchain destiny, written in the blocks',
+  url: 'https://onchain-horoscope.vercel.app',
   icons: ['https://avatars.githubusercontent.com/u/179229932']
 }
 

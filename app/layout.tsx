@@ -6,17 +6,17 @@ import { Providers } from "./providers"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Onchain Horoscope | Your Cosmic Degen Destiny",
-  description: "Get your personalized onchain horoscope based on your Base wallet activity. Connect your wallet and discover your cosmic degen destiny!",
+  title: "The Based Oracle | Your Onchain Destiny",
+  description: "Your onchain destiny, written in the blocks. Connect your wallet and discover what the chain foretells.",
   openGraph: {
-    title: "Onchain Horoscope",
-    description: "Discover your cosmic degen destiny based on your onchain activity",
+    title: "The Based Oracle",
+    description: "Your onchain destiny, written in the blocks",
     images: ["/og-image.png"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Onchain Horoscope",
-    description: "Discover your cosmic degen destiny based on your onchain activity",
+    title: "The Based Oracle",
+    description: "Your onchain destiny, written in the blocks",
   },
 }
 
