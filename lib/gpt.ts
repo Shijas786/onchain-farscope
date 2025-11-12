@@ -45,9 +45,6 @@ export async function generateHoroscope(walletData: WalletData): Promise<string>
     ? `${walletData.accountAge} days old`
     : 'newly created'
 
-  // Determine gas energy based on activity
-  const gasEnergy = getGasEnergy(walletData)
-
   const prompt = `You are an onchain oracle who speaks in Jesse Pollak's tone: minimal, declarative, builder-focused. Every horoscope feels like advice for crypto builders.
 
 ## Your Voice:
@@ -74,21 +71,19 @@ export async function generateHoroscope(walletData: WalletData): Promise<string>
 - Transfers: ${walletData.totalTransferCount}
 - Success Rate: ${walletData.chains.find(c => c.txCount > 0)?.successRate.toFixed(0) || 100}%
 
-## Gas Energy: ${gasEnergy}
-
 ## Instructions:
 
 Write a 3-4 sentence horoscope in Jesse Pollak's style:
 
 1. **Opening**: Reference their zodiac and a specific metric
 2. **Builder Insight**: What their activity reveals about their builder mentality
-3. **Gas/Chain Commentary**: Comment on their ${walletData.mostActiveChain} activity or gas timing
+3. **Chain Commentary**: Comment on their ${walletData.mostActiveChain} activity and cross-chain behavior
 4. **Action**: End with a clear, actionable message (deploy, ship, build, etc.)
 
 Style Examples:
 - "Your ${zodiacSign} shows ${walletData.lifetimeTxCount} lifetime transactions. That's not luck. That's conviction. Your ${walletData.mostActiveChain} activity suggests you understand where to build. Ship the next thing."
 - "The onchain economy doesn't care about your sign. Only your transaction history. ${walletData.totalSwapCount} swaps means you're learning. Keep building."
-- "You've been active on ${walletData.mostActiveChain}. ${walletData.totalTxCount} recent transactions. That's builder energy. Gas is ${gasEnergy.toLowerCase()} — the cosmos is giving you clearance."
+- "You've been active on ${walletData.mostActiveChain}. ${walletData.totalTxCount} recent transactions. That's builder energy. Move fast."
 
 **Tone Rules:**
 - Minimal. Declarative. No fluff.
@@ -135,17 +130,4 @@ function getOnchainZodiac(degenScore: number): string {
   return '🐌 SlowpokeLibra'
 }
 
-/**
- * Determine gas energy based on recent activity and patterns
- */
-function getGasEnergy(walletData: WalletData): string {
-  const avgGas = walletData.chains.reduce((sum, c) => sum + c.totalGasSpent, 0) / 
-                 Math.max(1, walletData.chains.filter(c => c.txCount > 0).length)
-  
-  const activityRate = walletData.accountAge ? walletData.lifetimeTxCount / walletData.accountAge : 0
-
-  if (activityRate > 5 || avgGas > 500000) return 'HIGH GAS'
-  if (activityRate > 1 || avgGas > 200000) return 'MEDIUM GAS'
-  return 'LOW GAS'
-}
 
