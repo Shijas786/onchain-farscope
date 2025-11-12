@@ -6,9 +6,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '@/components/ui/button'
 import { Sparkles, Share2, Loader2, CheckCircle2, ExternalLink } from 'lucide-react'
 import { ChainBadges } from './ChainBadges'
+import { GasEnergyBadge } from './GasEnergyBadge'
+import { BuilderCompatibility } from './BuilderCompatibility'
+import { LuckyContract } from './LuckyContract'
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
 import { parseEther } from 'viem'
 import { HOROSCOPE_NFT_ABI, HOROSCOPE_NFT_ADDRESS, MINT_PRICE } from '@/lib/contract'
+import { getGasEnergyMessage, getBuilderCompatibility, getLuckyContractAddress, getLuckyAddressMessage } from '@/lib/zodiacLogic'
 
 interface ChainData {
   chain: string
@@ -36,6 +40,15 @@ interface HoroscopeCardProps {
   lifetimeTxCount?: number
   accountAge?: number
   walletStats?: WalletStats
+}
+
+// Helper function to determine gas level
+function determineGasLevel(degenScore: number, lifetimeTxCount: number, accountAge: number): 'LOW GAS' | 'MEDIUM GAS' | 'HIGH GAS' {
+  const activityRate = accountAge > 0 ? lifetimeTxCount / accountAge : 0
+  
+  if (activityRate > 5 || degenScore >= 80) return 'HIGH GAS'
+  if (activityRate > 1 || degenScore >= 40) return 'MEDIUM GAS'
+  return 'LOW GAS'
 }
 
 export function HoroscopeCard({ 
@@ -175,14 +188,32 @@ export function HoroscopeCard({
             transition={{ delay: 0.4, duration: 0.8 }}
             className="p-6 bg-slate-800/50 rounded-lg border border-purple-500/20"
           >
-            <div className="flex items-start gap-3 mb-3">
+            <div className="flex items-start gap-3 mb-4">
               <div className="text-3xl">🔮</div>
-              <h3 className="text-xl font-semibold text-purple-300">Your Cosmic Analysis</h3>
+              <h3 className="text-xl font-semibold text-purple-300">Builder Oracle</h3>
             </div>
             <p className="text-base leading-relaxed text-slate-200 whitespace-pre-line">
               {horoscope}
             </p>
           </motion.div>
+
+          {/* Gas Energy + Builder Compatibility + Lucky Address */}
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="space-y-4">
+              <GasEnergyBadge 
+                gasLevel={determineGasLevel(degenScore, lifetimeTxCount || 0, accountAge || 0)}
+                message={getGasEnergyMessage(determineGasLevel(degenScore, lifetimeTxCount || 0, accountAge || 0))}
+              />
+              <BuilderCompatibility 
+                zodiacSign={zodiacSign}
+                compatibilityText={getBuilderCompatibility(zodiacSign)}
+              />
+            </div>
+            <LuckyContract 
+              address={getLuckyContractAddress(degenScore)}
+              message={getLuckyAddressMessage()}
+            />
+          </div>
 
           <div className="flex items-center justify-between text-sm text-muted-foreground px-2 pt-2 border-t border-slate-700/50">
             <span className="flex items-center gap-2">

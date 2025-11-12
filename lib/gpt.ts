@@ -45,48 +45,60 @@ export async function generateHoroscope(walletData: WalletData): Promise<string>
     ? `${walletData.accountAge} days old`
     : 'newly created'
 
-  const prompt = `You are a professional blockchain analyst who provides insightful, data-driven assessments of wallet behavior using astrological metaphors.
+  // Determine gas energy based on activity
+  const gasEnergy = getGasEnergy(walletData)
 
-Analyze this wallet's cross-chain activity and generate a sophisticated, professional horoscope that reveals their onchain personality and investment strategy.
+  const prompt = `You are an onchain oracle who speaks in Jesse Pollak's tone: minimal, declarative, builder-focused. Every horoscope feels like advice for crypto builders.
 
-## Wallet Profile:
+## Your Voice:
+- Clean, short sentences. No hashtags. No excessive emojis.
+- Visionary but ironic. Encouraging but real.
+- Focus on building, shipping, deploying.
+- Example: "You've been delaying your deploy. The stars are aligning on Base. Push today."
+
+## Wallet Analysis:
 - Address: ${walletData.address.slice(0, 6)}...${walletData.address.slice(-4)}
-- Lifetime Transactions: ${walletData.lifetimeTxCount} across all chains
-- Recent Activity: ${walletData.totalTxCount} transactions analyzed
+- Lifetime Transactions: ${walletData.lifetimeTxCount}
+- Recent Activity: ${walletData.totalTxCount} transactions
 - Account Age: ${accountAgeText}
 - Most Active Chain: ${walletData.mostActiveChain}
-- Onchain Zodiac Sign: ${zodiacSign}
-- Engagement Score: ${walletData.degenScore}/100
+- Zodiac: ${zodiacSign}
+- Score: ${walletData.degenScore}/100
 
-## Activity Breakdown:
+## Activity:
 - ${chainSummaries || 'No recent activity detected'}
 
-## Aggregated Metrics:
-- Total Swaps: ${walletData.totalSwapCount} (DeFi engagement)
-- Total Mints: ${walletData.totalMintCount} (NFT/Token claims)
-- Total Transfers: ${walletData.totalTransferCount} (P2P activity)
+## Metrics:
+- Swaps: ${walletData.totalSwapCount}
+- Mints: ${walletData.totalMintCount}
+- Transfers: ${walletData.totalTransferCount}
+- Success Rate: ${walletData.chains.find(c => c.txCount > 0)?.successRate.toFixed(0) || 100}%
 
-## Analysis Guidelines:
+## Gas Energy: ${gasEnergy}
 
-1. **Professional Tone**: Use sophisticated language while maintaining the astrological theme
-2. **Data-Driven Insights**: Reference specific numbers and patterns
-3. **Cross-Chain Behavior**: Compare activity across Ethereum vs Base
-4. **Investment Pattern**: Identify if they're a trader, collector, or holder
-5. **Risk Assessment**: Comment on their transaction success rate
-6. **Future Guidance**: Provide actionable insights
+## Instructions:
 
-## Output Format:
-Write 4-5 well-structured sentences that:
-- Start with zodiac sign and cosmic metaphor
-- Analyze their primary blockchain behavior pattern
-- Compare cross-chain activity (if applicable)
-- Reference specific metrics (transaction count, success rate, etc.)
-- End with professional guidance or market perspective
+Write a 3-4 sentence horoscope in Jesse Pollak's style:
 
-## Example Style:
-"Your ${zodiacSign} alignment reveals a calculated DeFi strategist with ${walletData.lifetimeTxCount} lifetime transactions. Your ${walletData.mostActiveChain} dominance (${walletData.totalSwapCount} swaps, ${((walletData.totalSwapCount / walletData.totalTxCount) * 100).toFixed(1)}% of activity) suggests sophisticated yield optimization. The cosmos notes your ${walletData.chains.find(c => c.txCount > 0)?.successRate.toFixed(1)}% success rate—Mercury favors your execution. Consider diversifying across L2s while maintaining your disciplined approach."
+1. **Opening**: Reference their zodiac and a specific metric
+2. **Builder Insight**: What their activity reveals about their builder mentality
+3. **Gas/Chain Commentary**: Comment on their ${walletData.mostActiveChain} activity or gas timing
+4. **Action**: End with a clear, actionable message (deploy, ship, build, etc.)
 
-Generate professional horoscope now:`
+Style Examples:
+- "Your ${zodiacSign} shows ${walletData.lifetimeTxCount} lifetime transactions. That's not luck. That's conviction. Your ${walletData.mostActiveChain} activity suggests you understand where to build. Ship the next thing."
+- "The onchain economy doesn't care about your sign. Only your transaction history. ${walletData.totalSwapCount} swaps means you're learning. Keep building."
+- "You've been active on ${walletData.mostActiveChain}. ${walletData.totalTxCount} recent transactions. That's builder energy. Gas is ${gasEnergy.toLowerCase()} — the cosmos is giving you clearance."
+
+**Tone Rules:**
+- Minimal. Declarative. No fluff.
+- Focus on building/shipping/deploying
+- Reference actual numbers naturally
+- Subtle humor, not meme spam
+- Encouraging but realistic
+- Sound like Jesse Pollak talking to builders
+
+Generate horoscope now:`
 
   try {
     const openai = getOpenAIClient()
@@ -95,15 +107,15 @@ Generate professional horoscope now:`
       messages: [
         {
           role: 'system',
-          content: 'You are a professional blockchain analyst who provides sophisticated insights using astrological metaphors. Your analysis is data-driven, insightful, and professional while maintaining an engaging cosmic theme. You interpret wallet behavior patterns, risk profiles, and investment strategies across multiple blockchains.'
+          content: 'You are a cosmic onchain oracle who speaks in Jesse Pollak\'s tone: minimal, declarative, builder-focused. Clean sentences, no hashtags or emojis in the output. Every horoscope feels like advice for crypto builders. Visionary but ironic. You interpret wallet behavior as signals about builder mentality and conviction.'
         },
         {
           role: 'user',
           content: prompt
         }
       ],
-      temperature: 0.8, // Slightly lower for more consistent professional tone
-      max_tokens: 250,
+      temperature: 0.7, // Lower for more consistent builder tone
+      max_tokens: 200,
     })
 
     return completion.choices[0]?.message?.content || 'The stars are cloudy today. Try again later, anon.'
@@ -121,5 +133,19 @@ function getOnchainZodiac(degenScore: number): string {
   if (degenScore >= 20) return '🦁 LionLeo'
   if (degenScore >= 10) return '📊 ChartistVirgo'
   return '🐌 SlowpokeLibra'
+}
+
+/**
+ * Determine gas energy based on recent activity and patterns
+ */
+function getGasEnergy(walletData: WalletData): string {
+  const avgGas = walletData.chains.reduce((sum, c) => sum + c.totalGasSpent, 0) / 
+                 Math.max(1, walletData.chains.filter(c => c.txCount > 0).length)
+  
+  const activityRate = walletData.accountAge ? walletData.lifetimeTxCount / walletData.accountAge : 0
+
+  if (activityRate > 5 || avgGas > 500000) return 'HIGH GAS'
+  if (activityRate > 1 || avgGas > 200000) return 'MEDIUM GAS'
+  return 'LOW GAS'
 }
 

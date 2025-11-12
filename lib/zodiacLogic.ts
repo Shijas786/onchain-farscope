@@ -93,3 +93,78 @@ export function getCosmicKeywords(
   return keywords.length > 0 ? keywords : ['Neutral Alignment']
 }
 
+/**
+ * Get gas energy assessment
+ */
+export function getGasEnergyMessage(gasLevel: 'LOW GAS' | 'MEDIUM GAS' | 'HIGH GAS'): string {
+  const messages = {
+    'LOW GAS': 'The cosmos is giving you clearance. Move fast.',
+    'MEDIUM GAS': 'Balance. Deploy if it feels right.',
+    'HIGH GAS': 'The universe is testing conviction. Builders only.',
+  }
+  return messages[gasLevel]
+}
+
+/**
+ * Builder compatibility between zodiac signs
+ */
+export const BUILDER_COMPATIBILITY: Record<string, { compatible: string; description: string }> = {
+  'DegenerateAries': {
+    compatible: 'ChartistVirgo',
+    description: 'Chaos meets meticulous. Somehow it works.',
+  },
+  'DiamondTaurus': {
+    compatible: 'DegenerateAries',
+    description: 'Both deploy under pressure. Perfect chaos.',
+  },
+  'MoonboyGemini': {
+    compatible: 'SlowpokeLibra',
+    description: 'Infinite vibes, zero deadlines.',
+  },
+  'CrabCancer': {
+    compatible: 'LionLeo',
+    description: 'Loud meets cautious. Balance emerges.',
+  },
+  'LionLeo': {
+    compatible: 'ChartistVirgo',
+    description: 'Loud meets meticulous. Somehow it works.',
+  },
+  'ChartistVirgo': {
+    compatible: 'DegenerateAries',
+    description: 'Analysis meets action. Ship faster.',
+  },
+  'SlowpokeLibra': {
+    compatible: 'MoonboyGemini',
+    description: 'Patient meets enthusiastic. Learning happens.',
+  },
+}
+
+export function getBuilderCompatibility(zodiacName: string): string {
+  const baseSign = zodiacName.replace(/^[^\s]+ /, '') // Remove emoji
+  const compat = BUILDER_COMPATIBILITY[baseSign]
+  return compat 
+    ? `Compatible with ${compat.compatible}: ${compat.description}`
+    : 'Compatible with all builders who ship.'
+}
+
+/**
+ * Generate a lucky contract address
+ */
+export function getLuckyContractAddress(degenScore: number): string {
+  // Generate pseudo-random address based on degen score
+  const baseAddresses = [
+    '0x000000000000000000000000000000000000base',
+    '0x1111111111111111111111111111111111111111',
+    '0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef',
+    '0xcafebabecafebabecafebabecafebabecafebabe',
+    '0x8453845384538453845384538453845384538453',
+  ]
+  
+  const index = Math.floor(degenScore / 20) % baseAddresses.length
+  return baseAddresses[index]
+}
+
+export function getLuckyAddressMessage(): string {
+  return "Don't send ETH. Just stare at it for motivation."
+}
+
