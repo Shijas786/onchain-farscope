@@ -18,12 +18,22 @@ interface ChainData {
   successRate: number
 }
 
+interface WalletStats {
+  totalTxCount: number
+  totalSwapCount: number
+  totalMintCount: number
+  totalTransferCount: number
+}
+
 interface HoroscopeData {
   horoscope: string
   zodiacSign: string
   degenScore: number
   mostActiveChain?: string
   chains?: ChainData[]
+  lifetimeTxCount?: number
+  accountAge?: number
+  walletStats?: WalletStats
 }
 
 export default function Home() {
@@ -243,6 +253,9 @@ export default function Home() {
                     address={address || ''}
                     mostActiveChain={horoscopeData.mostActiveChain}
                     chains={horoscopeData.chains}
+                    lifetimeTxCount={horoscopeData.lifetimeTxCount}
+                    accountAge={horoscopeData.accountAge}
+                    walletStats={horoscopeData.walletStats}
                   />
                   <div className="text-center">
                     <Button variant="outline" onClick={generateHoroscope}>

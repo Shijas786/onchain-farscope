@@ -34,6 +34,9 @@ interface WalletData {
   totalTransferCount: number
   degenScore: number
   mostActiveChain: string
+  lifetimeTxCount: number // Total transactions ever (all chains)
+  firstTxDate?: string
+  accountAge?: number // Days since first transaction
 }
 
 /**
@@ -60,9 +63,25 @@ export async function fetchWalletDataCovalentMultiChain(address: string): Promis
   let totalSwapCount = 0
   let totalMintCount = 0
   let totalTransferCount = 0
+  let lifetimeTxCount = 0
+  let oldestTxDate: Date | null = null
 
   for (const chain of chains) {
     try {
+      // Fetch transaction summary first to get total count
+      const summaryResponse = await axios.get(
+        `https://api.covalenthq.com/v1/${chain.id}/address/${address}/transactions_summary/`,
+        {
+          headers: { 
+            Authorization: `Bearer ${apiKey}` 
+          },
+        }
+      ).catch(() => null)
+
+      const totalChainTxs = summaryResponse?.data?.data?.items?.[0]?.total_count || 0
+      lifetimeTxCount += totalChainTxs
+
+      // Fetch last 20 transactions for analysis
       const { data } = await axios.get(
         `https://api.covalenthq.com/v1/${chain.id}/address/${address}/transactions_v3/`,
         {
@@ -71,7 +90,7 @@ export async function fetchWalletDataCovalentMultiChain(address: string): Promis
           },
           params: { 
             'no-logs': true, 
-            'page-size': 10 
+            'page-size': 20 
           },
         }
       )
@@ -83,7 +102,17 @@ export async function fetchWalletDataCovalentMultiChain(address: string): Promis
         value: tx.value || '0',
         gas_spent: tx.gas_spent || 0,
         success: tx.successful ?? true,
+        timeStamp: tx.block_signed_at,
       }))
+
+      // Track oldest transaction
+      if (items.length > 0) {
+        const lastTx = items[items.length - 1]
+        const txDate = new Date(lastTx.block_signed_at)
+        if (!oldestTxDate || txDate < oldestTxDate) {
+          oldestTxDate = txDate
+        }
+      }
 
       // Analyze transactions for this chain
       let swapCount = 0
@@ -156,6 +185,11 @@ export async function fetchWalletDataCovalentMultiChain(address: string): Promis
     (current.txCount > prev.txCount) ? current : prev
   , chainResults[0]).chain
 
+  // Calculate account age
+  const accountAge = oldestTxDate 
+    ? Math.floor((Date.now() - oldestTxDate.getTime()) / (1000 * 60 * 60 * 24))
+    : 0
+
   // Calculate degen score (0-100) based on multi-chain activity
   const degenScore = Math.min(
     100,
@@ -163,7 +197,8 @@ export async function fetchWalletDataCovalentMultiChain(address: string): Promis
     (totalMintCount * 15) + 
     (totalTransferCount * 8) + 
     (totalTxCount * 4) +
-    (chainResults.filter(c => c.txCount > 0).length * 10) // Bonus for being multi-chain
+    (chainResults.filter(c => c.txCount > 0).length * 10) + // Bonus for being multi-chain
+    Math.min(20, Math.floor(lifetimeTxCount / 10)) // Bonus for transaction history
   )
 
   return {
@@ -175,6 +210,9 @@ export async function fetchWalletDataCovalentMultiChain(address: string): Promis
     totalTransferCount,
     degenScore,
     mostActiveChain,
+    lifetimeTxCount,
+    firstTxDate: oldestTxDate?.toISOString(),
+    accountAge,
   }
 }
 
@@ -239,6 +277,12 @@ export async function fetchWalletDataBaseScan(address: string): Promise<WalletDa
       (swapCount * 15) + (mintCount * 20) + (transferCount * 10) + (recentTxs.length * 5)
     )
 
+    // Calculate account age from oldest transaction
+    const oldestTx = recentTxs[recentTxs.length - 1]
+    const accountAge = oldestTx?.timeStamp 
+      ? Math.floor((Date.now() - parseInt(oldestTx.timeStamp) * 1000) / (1000 * 60 * 60 * 24))
+      : 0
+
     return {
       address,
       chains: [{
@@ -258,6 +302,9 @@ export async function fetchWalletDataBaseScan(address: string): Promise<WalletDa
       totalTransferCount: transferCount,
       degenScore,
       mostActiveChain: 'Base',
+      lifetimeTxCount: recentTxs.length, // BaseScan doesn't provide total count easily
+      firstTxDate: oldestTx?.timeStamp,
+      accountAge,
     }
   } catch (error) {
     console.error('Error fetching wallet data:', error)

@@ -56,6 +56,8 @@ export async function POST(request: NextRequest) {
       zodiacSign,
       degenScore: walletData.degenScore,
       mostActiveChain: walletData.mostActiveChain,
+      lifetimeTxCount: walletData.lifetimeTxCount,
+      accountAge: walletData.accountAge,
       walletStats: {
         totalTxCount: walletData.totalTxCount,
         totalSwapCount: walletData.totalSwapCount,
