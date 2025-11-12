@@ -47,14 +47,19 @@ export default function Home() {
 
     setIsLoading(true)
     setError(null)
+    setHoroscopeData(null) // Clear previous horoscope
 
     try {
+      // Add timestamp to prevent caching
       const response = await fetch('/api/generate-horoscope', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ address }),
+        body: JSON.stringify({ 
+          address,
+          timestamp: Date.now() // Cache buster
+        }),
       })
 
       const data = await response.json()

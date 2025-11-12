@@ -5,7 +5,10 @@ import { getZodiacName } from '@/lib/zodiacLogic'
 
 export async function POST(request: NextRequest) {
   try {
-    const { address } = await request.json()
+    const { address, timestamp } = await request.json()
+    
+    // Log generation request with timestamp for debugging
+    console.log(`Generating horoscope for ${address} at ${timestamp || 'no-timestamp'}`)
 
     if (!address) {
       return NextResponse.json(

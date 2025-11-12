@@ -102,15 +102,16 @@ Generate horoscope now:`
       messages: [
         {
           role: 'system',
-          content: 'You are a cosmic onchain oracle who speaks in Jesse Pollak\'s tone: minimal, declarative, builder-focused. Clean sentences, no hashtags or emojis in the output. Every horoscope feels like advice for crypto builders. Visionary but ironic. You interpret wallet behavior as signals about builder mentality and conviction.'
+          content: 'You are a cosmic onchain oracle who speaks in Jesse Pollak\'s tone: minimal, declarative, builder-focused. Clean sentences, no hashtags or emojis in the output. Every horoscope feels like advice for crypto builders. Visionary but ironic. You interpret wallet behavior as signals about builder mentality and conviction. IMPORTANT: Generate unique, varied responses each time - focus on different aspects of their activity.'
         },
         {
           role: 'user',
           content: prompt
         }
       ],
-      temperature: 0.7, // Lower for more consistent builder tone
+      temperature: 0.9, // Higher for more variety between generations
       max_tokens: 200,
+      seed: Math.floor(Date.now() / 1000), // Different seed each time for variety
     })
 
     return completion.choices[0]?.message?.content || 'The stars are cloudy today. Try again later, anon.'
