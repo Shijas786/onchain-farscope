@@ -12,7 +12,6 @@ export function Providers({ children }: { children: ReactNode }) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         {children}
-        <appkit-button />
       </QueryClientProvider>
     </WagmiProvider>
   )
