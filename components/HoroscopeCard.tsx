@@ -90,8 +90,27 @@ export function HoroscopeCard({
     setMintError(null)
 
     try {
-      // 1. Call backend to prepare metadata & save to Supabase
-      const response = await fetch('/api/mint', {
+      // 1. Generate MINIMAL metadata (shorter = less gas!)
+      const metadata = {
+        name: `${zodiacSign}`,
+        description: horoscope.slice(0, 150), // Truncate to save gas
+        image: 'https://onchainguru.vercel.app/icon.png',
+        attributes: [
+          { trait_type: 'Sign', value: zodiacSign },
+          { trait_type: 'Score', value: degenScore },
+          { trait_type: 'Txs', value: lifetimeTxCount || 0 },
+          { trait_type: 'Chain', value: mostActiveChain || 'Base' },
+          { trait_type: 'Date', value: new Date().toISOString().split('T')[0] },
+        ],
+      }
+
+      // 2. Create compressed data URI
+      const jsonStr = JSON.stringify(metadata)
+      const base64 = btoa(jsonStr) // Use btoa instead of Buffer for smaller size
+      const tokenURI = `data:application/json;base64,${base64}`
+
+      // 3. Save to Supabase (async, don't wait)
+      fetch('/api/mint', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -102,17 +121,9 @@ export function HoroscopeCard({
           lifetimeTxCount: lifetimeTxCount || 0,
           mostActiveChain: mostActiveChain || 'Base',
         }),
-      })
+      }).catch(err => console.log('Supabase save failed (non-critical):', err))
 
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to prepare mint')
-      }
-
-      const { tokenURI } = data
-
-      // 2. Call contract from user's wallet (they pay gas)
+      // 4. Call contract from user's wallet (they pay gas)
       const { writeContract } = await import('wagmi/actions')
       const { config } = await import('@/lib/config')
       
@@ -248,7 +259,7 @@ export function HoroscopeCard({
                   </div>
                   {txHash && (
                     <a
-                      href={`https://sepolia.basescan.org/tx/${txHash}`}
+                      href={`https://basescan.org/tx/${txHash}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 text-xs text-purple-400 hover:text-purple-300"
