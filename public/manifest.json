@@ -1,24 +1,27 @@
 {
-  "name": "The Based Oracle",
-  "version": "1",
-  "iconUrl": "https://onchain-horoscope.vercel.app/icon.png",
-  "homeUrl": "https://onchain-horoscope.vercel.app",
-  "imageUrl": "https://onchain-horoscope.vercel.app/image.png",
-  "buttonTitle": "Consult the Oracle",
-  "splashImageUrl": "https://onchain-horoscope.vercel.app/splash.png",
-  "splashBackgroundColor": "#6200EA",
-  "webhookUrl": "https://onchain-horoscope.vercel.app/api/webhook",
-  "subtitle": "Onchain prophecies for degens & builders",
-  "description": "Astrology for people who ship. Get your daily fate forecast.",
-  "primaryCategory": "entertainment",
-  "tags": ["base", "horoscope"],
-  "tagline": "Read your fate.",
-  "ogTitle": "Your Daily Builder Horoscope",
-  "ogDescription": "Stay based. Stay cosmic.",
+  "frame": {
+    "name": "onchain guru",
+    "version": "1",
+    "iconUrl": "https://onchainguru.vercel.app/icon.png",
+    "homeUrl": "https://onchainguru.vercel.app/",
+    "imageUrl": "https://onchainguru.vercel.app/image.png",
+    "buttonTitle": "open onchain guru",
+    "splashImageUrl": "https://onchainguru.vercel.app/splash.png",
+    "splashBackgroundColor": "#00EA62",
+    "webhookUrl": "https://onchainguru.vercel.app/api/webhook",
+    "ogTitle": "Stay based. Stay cosmic",
+    "subtitle": "onchain prophecies for degens & builder",
+    "description": "astrology for people who ship. Get your daily fate forecast",
+    "primaryCategory": "games",
+    "tags": [
+      "base",
+      "horoscope"
+    ],
+    "ogDescription": "Your Daily Builder Horoscope"
+  },
   "accountAssociation": {
     "header": "eyJmaWQiOjI1OTkxMywidHlwZSI6ImF1dGgiLCJrZXkiOiIweDE2QmM5MDJjYzk3NDRkOThmRjAzRDEyOTA0MjVhRkQ0RDRiOTAyMWEifQ",
-    "payload": "eyJkb21haW4iOiJvbmNoYWluLWhvcm9zY29wZS52ZXJjZWwuYXBwIn0",
-    "signature": "w8RPfA3mFdIlBlgTEZQZWefFNG1LHE3SL1aF7JGjVxsTfH67NBIcll4uu/IbPWObJ7ySHXhxB/ziaBLyTOAQ5Bw="
+    "payload": "eyJkb21haW4iOiJodHRwczovL29uY2hhaW5ndXJ1LnZlcmNlbC5hcHAvIn0",
+    "signature": "4XbtdJKe/4KU7+dcED8oHZQMz7gveGrI5deWZ2VtbvBlJ6oSl3b2iYAahY1g7fXnhup6un7LCYqTXcLkIbVbYRw="
   }
 }
-
