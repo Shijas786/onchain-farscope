@@ -49,9 +49,8 @@ export async function fetchWalletDataCovalentMultiChain(address: string): Promis
     throw new Error('COVALENT_API_KEY not configured')
   }
 
-  // Support multiple chains: Ethereum (1), Base (8453), Optimism (10), Zora (7777777)
+  // Only Base network now
   const chains = [
-    { id: 1, name: 'Ethereum' },
     { id: 8453, name: 'Base' },
     // Add more chains as needed:
     // { id: 10, name: 'Optimism' },
