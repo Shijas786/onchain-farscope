@@ -199,7 +199,7 @@ export function HoroscopeCard({
 
         <CardFooter className="flex flex-col gap-4">
           {/* Minting Status */}
-          {(isMinting || isConfirming || isConfirmed) && (
+          {(isMinting || isConfirmed) && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -209,17 +209,8 @@ export function HoroscopeCard({
                 <div className="flex items-center gap-3">
                   <Loader2 className="w-5 h-5 animate-spin text-purple-400" />
                   <div>
-                    <p className="font-semibold text-purple-300">Confirm Transaction</p>
-                    <p className="text-sm text-slate-400">Please confirm in your wallet...</p>
-                  </div>
-                </div>
-              )}
-              {isConfirming && (
-                <div className="flex items-center gap-3">
-                  <Loader2 className="w-5 h-5 animate-spin text-blue-400" />
-                  <div>
-                    <p className="font-semibold text-blue-300">Minting NFT</p>
-                    <p className="text-sm text-slate-400">Transaction is being confirmed...</p>
+                    <p className="font-semibold text-purple-300">Minting Prophecy</p>
+                    <p className="text-sm text-slate-400">Creating your soulbound NFT...</p>
                   </div>
                 </div>
               )}
