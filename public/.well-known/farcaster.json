@@ -1,4 +1,25 @@
 {
+  "frame": {
+    "name": "onchainguru",
+    "version": "1",
+    "iconUrl": "https://onchainguru.vercel.app/icon.png",
+    "homeUrl": "https://onchainguru.vercel.app/",
+    "imageUrl": "https://onchainguru.vercel.app/image.png",
+    "buttonTitle": "open onchainguru",
+    "splashImageUrl": "https://onchainguru.vercel.app/splash.png",
+    "splashBackgroundColor": "#00EA62",
+    "webhookUrl": "https://onchainguru.vercel.app/api/webhook",
+    "subtitle": "onchain prophecies for degens & builder",
+    "description": "astrology for people who ship. Get your daily fate forecast",
+    "primaryCategory": "games",
+    "tags": [
+      "based",
+      "onchain",
+      "horoscope"
+    ],
+    "ogTitle": "Stay based. Stay cosmic",
+    "ogDescription": "Your Daily Builder Horoscope"
+  },
   "accountAssociation": {
     "header": "eyJmaWQiOjI1OTkxMywidHlwZSI6ImF1dGgiLCJrZXkiOiIweDE2QmM5MDJjYzk3NDRkOThmRjAzRDEyOTA0MjVhRkQ0RDRiOTAyMWEifQ",
     "payload": "eyJkb21haW4iOiJodHRwczovL29uY2hhaW5ndXJ1LnZlcmNlbC5hcHAvIn0",
