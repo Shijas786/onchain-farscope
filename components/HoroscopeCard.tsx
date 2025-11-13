@@ -76,33 +76,44 @@ export function HoroscopeCard({
   }
 
   const handleMint = async () => {
-    if (!HOROSCOPE_NFT_ADDRESS) {
-      alert('NFT contract not deployed yet. Please deploy the contract first!')
-      return
-    }
-
     if (!connectedAddress) {
       alert('Please connect your wallet first')
       return
     }
 
+    setIsMinting(true)
+    setMintError(null)
+
     try {
-      writeContract({
-        address: HOROSCOPE_NFT_ADDRESS,
-        abi: HOROSCOPE_NFT_ABI,
-        functionName: 'mintHoroscope',
-        args: [
-          zodiacSign,
-          horoscope,
-          BigInt(degenScore),
-          BigInt(lifetimeTxCount || 0),
-          mostActiveChain || 'Base',
-        ],
-        value: parseEther(MINT_PRICE),
+      const response = await fetch('/api/mint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          address: connectedAddress,
+          sign: zodiacSign,
+          prophecy: horoscope,
+          degenScore,
+          lifetimeTxCount: lifetimeTxCount || 0,
+          mostActiveChain: mostActiveChain || 'Base',
+        }),
       })
-    } catch (error) {
-      console.error('Error minting NFT:', error)
-      alert('Failed to mint NFT. Please try again.')
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to mint prophecy')
+      }
+
+      if (data.success) {
+        setTxHash(data.transactionHash)
+        setTokenId(data.tokenId)
+        setIsConfirmed(true)
+      }
+    } catch (error: any) {
+      console.error('Minting error:', error)
+      setMintError(error.message || 'Failed to mint prophecy')
+    } finally {
+      setIsMinting(false)
     }
   }
 
@@ -219,15 +230,18 @@ export function HoroscopeCard({
                     <p className="font-semibold text-green-300">NFT Minted Successfully! 🎉</p>
                     <p className="text-sm text-slate-400">Your horoscope is now immortalized on Base</p>
                   </div>
-                  {hash && (
+                  {txHash && (
                     <a
-                      href={`https://basescan.org/tx/${hash}`}
+                      href={`https://sepolia.basescan.org/tx/${txHash}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 text-xs text-purple-400 hover:text-purple-300"
                     >
                       View TX <ExternalLink className="w-3 h-3" />
                     </a>
+                  )}
+                  {tokenId !== null && (
+                    <p className="text-xs text-slate-400">Token ID: #{tokenId}</p>
                   )}
                 </div>
               )}
@@ -241,9 +255,10 @@ export function HoroscopeCard({
               animate={{ opacity: 1 }}
               className="w-full p-3 rounded-lg bg-red-900/20 border border-red-500/30"
             >
-              <p className="text-sm text-red-300">
-                Failed to mint: {mintError.message?.slice(0, 100)}...
-              </p>
+              <div className="flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-red-300">{mintError}</p>
+              </div>
             </motion.div>
           )}
 
@@ -267,24 +282,18 @@ export function HoroscopeCard({
               variant="cosmic" 
               className="gap-2" 
               onClick={handleMint}
-              disabled={isMinting || isConfirming || isConfirmed || !HOROSCOPE_NFT_ADDRESS}
+              disabled={isMinting || isConfirmed}
             >
-              {isMinting || isConfirming ? (
+              {isMinting ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : isConfirmed ? (
                 <CheckCircle2 className="w-4 h-4" />
               ) : (
                 <Sparkles className="w-4 h-4" />
               )}
-              {isConfirmed ? 'Minted!' : 'Mint as NFT (Free!)'}
+              {isConfirmed ? 'Minted!' : 'Mint My Fate (Free!)'}
             </Button>
           </div>
-
-          {!HOROSCOPE_NFT_ADDRESS && (
-            <p className="text-xs text-center text-slate-500">
-              Free NFT minting will be available after contract deployment
-            </p>
-          )}
         </CardFooter>
       </Card>
     </motion.div>
