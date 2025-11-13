@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAppKitAccount } from '@reown/appkit/react'
 import { motion } from 'framer-motion'
 import { ConnectButton } from '@/components/ConnectButton'
@@ -8,6 +8,7 @@ import { HoroscopeCard } from '@/components/HoroscopeCard'
 import { LoadingState } from '@/components/LoadingState'
 import { Button } from '@/components/ui/button'
 import { Sparkles, Stars, Zap } from 'lucide-react'
+import sdk from '@farcaster/frame-sdk'
 
 interface ChainData {
   chain: string
@@ -41,6 +42,19 @@ export default function Home() {
   const [horoscopeData, setHoroscopeData] = useState<HoroscopeData | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Initialize Farcaster SDK
+  useEffect(() => {
+    const initFarcaster = async () => {
+      try {
+        await sdk.actions.ready()
+        console.log('Farcaster SDK ready!')
+      } catch (error) {
+        console.log('Not in Farcaster context or SDK error:', error)
+      }
+    }
+    initFarcaster()
+  }, [])
 
   const generateHoroscope = async () => {
     if (!address) return
