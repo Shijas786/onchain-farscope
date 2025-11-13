@@ -21,9 +21,9 @@
     "ogDescription": "Your Daily Builder Horoscope"
   },
   "accountAssociation": {
-    "header": "eyJmaWQiOjI1OTkxMywidHlwZSI6ImF1dGgiLCJrZXkiOiIweDE2QmM5MDJjYzk3NDRkOThmRjAzRDEyOTA0MjVhRkQ0RDRiOTAyMWEifQ",
-    "payload": "eyJkb21haW4iOiJodHRwczovL29uY2hhaW5ndXJ1LnZlcmNlbC5hcHAvIn0",
-    "signature": "4XbtdJKe/4KU7+dcED8oHZQMz7gveGrI5deWZ2VtbvBlJ6oSl3b2iYAahY1g7fXnhup6un7LCYqTXcLkIbVbYRw="
+    "header": "eyJmaWQiOjI1OTkxMywidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDlmZjdjNTNhNDU3NzcxOGQwOUIxYkZiYTVlRkU2MzFCOTlmY2FmZmMifQ",
+    "payload": "eyJkb21haW4iOiJvbmNoYWluZ3VydS52ZXJjZWwuYXBwIn0",
+    "signature": "IQjaYxBQuFEzK0/gSnV528WATA0XJ+mPH59CsBB3itsDNvigEzOud3+AP/rj4f5mULSwk5w+6EUKbeZW8VeKURw="
   }
 }
 
