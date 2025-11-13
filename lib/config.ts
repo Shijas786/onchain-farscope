@@ -1,6 +1,6 @@
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiProvider } from 'wagmi'
-import { base, mainnet, type AppKitNetwork } from '@reown/appkit/networks'
+import { base, type AppKitNetwork } from '@reown/appkit/networks'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 
@@ -11,8 +11,8 @@ if (!projectId) {
   console.warn('NEXT_PUBLIC_REOWN_PROJECT_ID is not set')
 }
 
-// Base first = default network
-export const networks: [AppKitNetwork, ...AppKitNetwork[]] = [base, mainnet]
+// Only Base network
+export const networks: [AppKitNetwork, ...AppKitNetwork[]] = [base]
 
 // Set up the Wagmi Adapter (Config)
 export const wagmiAdapter = new WagmiAdapter({
