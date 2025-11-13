@@ -246,7 +246,7 @@ export function HoroscopeCard({
               <span className="text-xs">📍</span>
               {address.slice(0, 6)}...{address.slice(-4)}
             </span>
-            <span>{mostActiveChain || 'Multi-Chain'}</span>
+            <span>Base Mainnet</span>
           </div>
         </CardContent>
 
