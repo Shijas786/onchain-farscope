@@ -2,7 +2,6 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
  * @title ProofOfFate
@@ -10,24 +9,17 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * Features:
  * - Non-transferable (soulbound)
  * - One mint per wallet per day
- * - Metadata stored on IPFS
+ * - Users mint directly (no owner control)
  */
-contract ProofOfFate is ERC721URIStorage, Ownable {
+contract ProofOfFate is ERC721URIStorage {
     uint256 public nextTokenId;
     mapping(address => uint256) public lastMintedDay;
-    
-    event ProphecyMinted(
-        address indexed to,
-        uint256 indexed tokenId,
-        uint256 day,
-        string tokenURI
-    );
 
-    constructor() ERC721("Proof of Fate", "FATE") Ownable(msg.sender) {}
+    constructor() ERC721("Proof of Fate", "FATE") {}
 
     /**
      * @dev Mint a prophecy NFT (anyone can mint for themselves)
-     * @param tokenURI IPFS URI for metadata
+     * @param tokenURI IPFS URI or data URI for metadata
      */
     function mintProphecy(string memory tokenURI) external {
         uint256 today = block.timestamp / 1 days;
@@ -37,8 +29,6 @@ contract ProofOfFate is ERC721URIStorage, Ownable {
         _safeMint(msg.sender, tokenId);
         _setTokenURI(tokenId, tokenURI);
         lastMintedDay[msg.sender] = today;
-        
-        emit ProphecyMinted(msg.sender, tokenId, today, tokenURI);
     }
 
     /**
@@ -72,22 +62,19 @@ contract ProofOfFate is ERC721URIStorage, Ownable {
     }
 
     /**
-     * @dev Soulbound logic - prevent transfers except minting and burning
+     * @dev Soulbound logic - disable transfers
      */
-    function _update(
+    function _beforeTokenTransfer(
+        address from,
         address to,
         uint256 tokenId,
-        address auth
-    ) internal override returns (address) {
-        address from = _ownerOf(tokenId);
-        
-        // Allow minting (from == address(0)) and burning (to == address(0))
+        uint256 batchSize
+    ) internal override {
         require(
             from == address(0) || to == address(0),
             "Soulbound: non-transferable"
         );
-        
-        return super._update(to, tokenId, auth);
+        super._beforeTokenTransfer(from, to, tokenId, batchSize);
     }
 }
 

@@ -90,26 +90,29 @@ export function HoroscopeCard({
     setMintError(null)
 
     try {
-      // 1. Generate metadata
-      const metadata = {
-        name: `Proof of Fate - ${zodiacSign}`,
-        description: horoscope,
-        image: 'https://onchainguru.vercel.app/oracle-wizard.png',
-        attributes: [
-          { trait_type: 'Zodiac Sign', value: zodiacSign },
-          { trait_type: 'Degen Score', value: degenScore },
-          { trait_type: 'Lifetime Transactions', value: lifetimeTxCount || 0 },
-          { trait_type: 'Most Active Chain', value: mostActiveChain || 'Base' },
-          { trait_type: 'Date', value: new Date().toISOString().split('T')[0] },
-        ],
+      // 1. Call backend to prepare metadata & save to Supabase
+      const response = await fetch('/api/mint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          address: connectedAddress,
+          sign: zodiacSign,
+          prophecy: horoscope,
+          degenScore,
+          lifetimeTxCount: lifetimeTxCount || 0,
+          mostActiveChain: mostActiveChain || 'Base',
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to prepare mint')
       }
 
-      // 2. Create data URI (on-chain metadata)
-      const jsonString = JSON.stringify(metadata)
-      const base64 = Buffer.from(jsonString).toString('base64')
-      const dataURI = `data:application/json;base64,${base64}`
+      const { tokenURI } = data
 
-      // 3. Call contract from user's wallet (they pay gas)
+      // 2. Call contract from user's wallet (they pay gas)
       const { writeContract } = await import('wagmi/actions')
       const { config } = await import('@/lib/config')
       
@@ -125,7 +128,7 @@ export function HoroscopeCard({
           },
         ],
         functionName: 'mintProphecy',
-        args: [dataURI],
+        args: [tokenURI],
       })
 
       setTxHash(hash)
@@ -133,7 +136,7 @@ export function HoroscopeCard({
 
     } catch (error: any) {
       console.error('Minting error:', error)
-      setMintError(error.message || 'Failed to mint prophecy')
+      setMintError(error.shortMessage || error.message || 'Failed to mint prophecy')
     } finally {
       setIsMinting(false)
     }
