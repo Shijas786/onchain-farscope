@@ -26,20 +26,19 @@ contract ProofOfFate is ERC721URIStorage, Ownable {
     constructor() ERC721("Proof of Fate", "FATE") Ownable(msg.sender) {}
 
     /**
-     * @dev Mint a prophecy NFT (only owner can call)
-     * @param to Address to mint to
+     * @dev Mint a prophecy NFT (anyone can mint for themselves)
      * @param tokenURI IPFS URI for metadata
      */
-    function mintProphecy(address to, string memory tokenURI) external onlyOwner {
+    function mintProphecy(string memory tokenURI) external {
         uint256 today = block.timestamp / 1 days;
-        require(lastMintedDay[to] < today, "Already minted today");
+        require(lastMintedDay[msg.sender] < today, "Already minted today");
 
         uint256 tokenId = nextTokenId++;
-        _safeMint(to, tokenId);
+        _safeMint(msg.sender, tokenId);
         _setTokenURI(tokenId, tokenURI);
-        lastMintedDay[to] = today;
+        lastMintedDay[msg.sender] = today;
         
-        emit ProphecyMinted(to, tokenId, today, tokenURI);
+        emit ProphecyMinted(msg.sender, tokenId, today, tokenURI);
     }
 
     /**
