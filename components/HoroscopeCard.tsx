@@ -58,10 +58,27 @@ export function HoroscopeCard({
 
   const handleShare = async () => {
     setIsSharing(true)
-    const statsText = lifetimeTxCount ? `\n${lifetimeTxCount} lifetime transactions` : ''
-    const chainInfo = mostActiveChain ? `\nMost Active: ${mostActiveChain}` : ''
-    const text = `My Based Oracle Reading:\n${zodiacSign}${statsText}${chainInfo}\n\n${horoscope}\n\n🔮 Consult the Oracle: https://onchain-horoscope.vercel.app`
+    const statsText = lifetimeTxCount ? ` • ${lifetimeTxCount} lifetime txs` : ''
+    const text = `🔮 ${zodiacSign}${statsText}\n\n${horoscope}\n\nConsult the Oracle: https://onchainguru.vercel.app`
     
+    // Try Farcaster share first (if in Farcaster context)
+    try {
+      const sdk = await import('@farcaster/frame-sdk')
+      const farcasterSDK = sdk.default
+      
+      // Check if we're in Farcaster context
+      const context = await farcasterSDK.context
+      if (context) {
+        // Use Farcaster's native share
+        await farcasterSDK.actions.openUrl(`https://warpcast.com/~/compose?text=${encodeURIComponent(text)}`)
+        setIsSharing(false)
+        return
+      }
+    } catch (err) {
+      console.log('Not in Farcaster context, using fallback')
+    }
+    
+    // Fallback: Native share or clipboard
     if (navigator.share) {
       try {
         await navigator.share({ text })
