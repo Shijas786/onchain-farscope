@@ -11,7 +11,8 @@ if (!projectId) {
   console.warn('NEXT_PUBLIC_REOWN_PROJECT_ID is not set')
 }
 
-export const networks: [AppKitNetwork, ...AppKitNetwork[]] = [mainnet, base]
+// Base first = default network
+export const networks: [AppKitNetwork, ...AppKitNetwork[]] = [base, mainnet]
 
 // Set up the Wagmi Adapter (Config)
 export const wagmiAdapter = new WagmiAdapter({
