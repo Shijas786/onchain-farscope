@@ -1,32 +1,26 @@
 {
-  "frame": {
-    "name": "The Based Oracle",
-    "version": "1.0",
-    "iconUrl": "https://onchain-horoscope.vercel.app/oracle-icon.png",
-    "homeUrl": "https://onchain-horoscope.vercel.app/",
-    "imageUrl": "https://onchain-horoscope.vercel.app/oracle-icon.png",
-    "buttonTitle": "Consult the Oracle",
-    "splashImageUrl": "https://onchain-horoscope.vercel.app/oracle-icon.png",
-    "splashBackgroundColor": "#6200EA",
-    "webhookUrl": "https://onchain-horoscope.vercel.app/api/webhook",
-    "subtitle": "Your onchain destiny, written in the blocks",
-    "description": "Astrology for people who ship. AI-powered horoscopes based on your real Ethereum + Base wallet activity. Jesse Pollak meets cosmic prophecy.",
-    "primaryCategory": "social",
-    "tags": [
-      "base",
-      "horoscope",
-      "builder",
-      "oracle",
-      "ai"
-    ],
-    "tagline": "Your onchain destiny, written in the blocks.",
-    "ogTitle": "The Based Oracle - Your Onchain Destiny",
-    "ogDescription": "Your onchain destiny, written in the blocks. Stay based. Stay cosmic."
-  },
+  "name": "The Based Oracle",
+  "version": "1",
+  "iconUrl": "https://onchain-horoscope.vercel.app/icon.png",
+  "homeUrl": "https://onchain-horoscope.vercel.app",
+  "imageUrl": "https://onchain-horoscope.vercel.app/image.png",
+  "buttonTitle": "Consult the Oracle",
+  "splashImageUrl": "https://onchain-horoscope.vercel.app/splash.png",
+  "splashBackgroundColor": "#6200EA",
+  "webhookUrl": "https://onchain-horoscope.vercel.app/api/webhook",
+  "subtitle": "Your onchain destiny, written in the blocks",
+  "description": "Astrology for people who ship. Get your builder destiny forecast based on real wallet activity.",
+  "primaryCategory": "entertainment",
+  "tags": ["base", "horoscope"],
+  "tagline": "Read your fate.",
+  "ogTitle": "The Based Oracle - Your Onchain Destiny",
+  "ogDescription": "Stay based. Stay cosmic.",
+  "heroImageUrl": "https://onchain-horoscope.vercel.app/hero.png",
+  "castShareUrl": "https://warpcast.com/~/compose?text=Check+out+The+Based+Oracle+on+Farcaster",
   "accountAssociation": {
     "header": "eyJmaWQiOjI1OTkxMywidHlwZSI6ImF1dGgiLCJrZXkiOiIweDE2QmM5MDJjYzk3NDRkOThmRjAzRDEyOTA0MjVhRkQ0RDRiOTAyMWEifQ",
-    "payload": "eyJkb21haW4iOiJodHRwczovL29uY2hhaW4taG9yb3Njb3BlLnZlcmNlbC5hcHAvIn0",
-    "signature": "0TLeFjBWnLKb1yD8B7xaqZvNs4LBQMD7Si0Z8zSMfTgCelrXrRbXU8sOeaWY03hRSEJ0AYL34iQlwfMoNoKjYhs="
+    "payload": "eyJkb21haW4iOiJvbmNoYWluLWhvcm9zY29wZS52ZXJjZWwuYXBwIn0",
+    "signature": "w8RPfA3mFdIlBlgTEZQZWefFNG1LHE3SL1aF7JGjVxsTfH67NBIcll4uu/IbPWObJ7ySHXhxB/ziaBLyTOAQ5Bw="
   }
 }
 
