@@ -4,10 +4,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Sparkles, Share2, Loader2, CheckCircle2, ExternalLink } from 'lucide-react'
-import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
-import { parseEther } from 'viem'
-import { HOROSCOPE_NFT_ABI, HOROSCOPE_NFT_ADDRESS, MINT_PRICE } from '@/lib/contract'
+import { Sparkles, Share2, Loader2, CheckCircle2, ExternalLink, AlertCircle } from 'lucide-react'
+import { useAccount } from 'wagmi'
 
 interface ChainData {
   chain: string
@@ -51,11 +49,12 @@ export function HoroscopeCard({
   const [isSharing, setIsSharing] = useState(false)
   const { address: connectedAddress } = useAccount()
   
-  // Wagmi hooks for contract interaction
-  const { data: hash, writeContract, isPending: isMinting, error: mintError } = useWriteContract()
-  const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
-    hash,
-  })
+  // Server-side minting state
+  const [isMinting, setIsMinting] = useState(false)
+  const [isConfirmed, setIsConfirmed] = useState(false)
+  const [mintError, setMintError] = useState<string | null>(null)
+  const [txHash, setTxHash] = useState<string | null>(null)
+  const [tokenId, setTokenId] = useState<number | null>(null)
 
   const handleShare = async () => {
     setIsSharing(true)
