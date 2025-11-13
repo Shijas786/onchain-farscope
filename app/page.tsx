@@ -134,7 +134,7 @@ export default function Home() {
             className="mb-4 inline-block"
           >
             <img 
-              src="/oracle-icon.png" 
+              src="/icon.png" 
               alt="The Based Oracle" 
               className="w-24 h-24 md:w-32 md:h-32 mx-auto drop-shadow-2xl"
             />
